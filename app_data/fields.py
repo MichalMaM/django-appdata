@@ -52,6 +52,13 @@ class AppDataField(TextField):
         kwargs.setdefault('editable', False)
         super(AppDataField, self).__init__(*args, **kwargs)
 
+    def deconstruct(self):
+        name, path, args, kwargs = super(AppDataField, self).deconstruct()
+
+        if self.app_registry != app_registry:
+            kwargs['app_registry'] = self.app_registry
+        return name, path, args, kwargs
+
     def contribute_to_class(self, cls, name):
         super(AppDataField, self).contribute_to_class(cls, name)
         setattr(cls, name, AppDataDescriptor(self))
