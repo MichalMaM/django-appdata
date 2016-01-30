@@ -155,7 +155,10 @@ class MultiForm(object):
 
     @property
     def media(self):
-        return self.model_form.media
+        media = self.model_form.media
+        for form in self.app_forms.values():
+            media += form.media
+        return media
 
     @property
     def save_m2m(self):
