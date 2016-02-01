@@ -27,8 +27,10 @@ class AppDataAdminMixin(object):
     app_form_opts = {}
 
     def _get_form_factory_opts(self, request, obj=None, **kwargs):
-        if self.declared_fieldsets:
+        if getattr(self, 'declared_fieldsets', None):
             fields = flatten_fieldsets(self.declared_fieldsets)
+        elif getattr(self, 'get_fieldsets', None):
+            fields = flatten_fieldsets(self.get_fieldsets(request, obj))
         else:
             fields = None
         if self.exclude is None:
