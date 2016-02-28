@@ -52,6 +52,23 @@ class AppDataField(TextField):
         super(AppDataField, self).contribute_to_class(cls, name)
         setattr(cls, name, AppDataDescriptor(self))
 
+    def from_db_value(self, value, *args, **kwargs):
+        if value is None:
+            return value
+
+        if isinstance(value, six.string_types):
+            value = json.loads(value)
+
+        if isinstance(value, dict) and not isinstance(value, AppDataContainerFactory):
+            value = AppDataContainerFactory(self, value, app_registry=self.app_registry)
+        return value
+
+    def to_python(self, value, *args, **kwargs):
+        if isinstance(value, AppDataContainerFactory):
+            return value
+
+        return self.from_db_value(value, *args, **kwargs)
+
     def get_db_prep_value(self, value, connection, prepared=False):
         """Convert JSON object to a string"""
         if isinstance(value, AppDataContainerFactory):
