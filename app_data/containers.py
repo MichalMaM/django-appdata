@@ -47,13 +47,13 @@ class AppDataContainerFactory(dict):
         return (dict, (self.serialize(), ))
 
     def validate(self, model_instance):
-        errors = {}
+        errors = []
         for key, value in six.iteritems(self):
             if hasattr(value, 'validate') and getattr(value, 'accessed', True):
                 try:
                     value.validate(self, model_instance)
                 except ValidationError as e:
-                    errors[key] = e.message_dict
+                    errors.extend(sum(e.message_dict.values(), []))
         if errors:
             raise ValidationError(errors)
 
