@@ -4,6 +4,7 @@ from django import forms
 
 from nose import tools
 
+from app_data import AppDataField
 from app_data.registry import NamespaceConflict, NamespaceMissing, app_registry
 from app_data.containers import AppDataContainer, AppDataForm
 
@@ -20,6 +21,32 @@ class DummyAppDataContainer(AppDataContainer):
 
 class DummyAppDataContainer2(AppDataContainer):
     pass
+
+
+class TestFieldValidation(AppDataTestCase):
+    class MyForm(AppDataForm):
+        publish_from = forms.DateField()
+
+    def setUp(self):
+        super(TestFieldValidation, self).setUp()
+
+        self.my_app_container_cls = AppDataContainer.from_form(self.MyForm)
+        app_registry.register('myapp', self.my_app_container_cls)
+        self.article = Article()
+
+    def test_correct_value_for_field(self):
+        self.article.app_data.myapp.publish_from = date(2012, 8, 26)
+
+        tools.assert_true(isinstance(self.article.app_data['myapp'], self.my_app_container_cls))
+        tools.assert_equals(self.article.full_clean(), None)
+
+    @tools.raises(forms.ValidationError)
+    def test_illegal_value_for_field(self):
+        self.article.app_data.myapp.publish_from = 1
+
+        tools.assert_true(isinstance(self.article.app_data['myapp'], self.my_app_container_cls))
+        tools.assert_equals(self.article.full_clean(), None)
+
 
 class TestForms(AppDataTestCase):
     def test_container_from_form(self):
