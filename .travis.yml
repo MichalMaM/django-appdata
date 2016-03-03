@@ -32,8 +32,8 @@ matrix:
     - python: "3.5"
       env: DJANGO="1.7.11"
 install:
-   - "if [[ $DJANGO == 'dev' ]]; then pip install git+https://github.com/django/django.git#egg=Django; else pip install Django==$DJANGO --use-mirrors; fi"
-   - pip install -r requirements.txt --use-mirrors
+   - "if [[ $DJANGO == 'dev' ]]; then pip install git+https://github.com/django/django.git#egg=Django; else pip install Django==$DJANGO; fi"
+   - pip install -r requirements.txt
    - python setup.py develop
 env:
   - DJANGO="1.4.10"
