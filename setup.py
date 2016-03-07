@@ -19,13 +19,15 @@ test_requires = [
 ]
 
 setup(
-    name = 'django-appdata',
+    name = 'django-appdata-mam',
     description = "Extandable field that enables Django apps to store their data on your models.",
-    url = "https://github.com/ella/django-appdata/",
+    url = "https://github.com/MichalMaM/django-appdata/",
     long_description = long_description,
     version = __versionstr__,
     author = 'Ella Development Team',
     author_email = 'dev@ellaproject.cz',
+    maintainer='Michal Dub',
+    maintainer_email='michalmam@centrum.cz',
     license='BSD',
     packages = ['app_data'],
     zip_safe = False,
