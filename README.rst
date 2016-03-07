@@ -4,6 +4,13 @@ Django AppData
 Extandable field and related tools that enable Django apps to extend your
 reusable app.
 
+IMPORTANT NOTE
+**************
+
+This app is fork of the original `Django appdata <https://github.com/ella/django-appdata>`_.
+Fork was created because of original application does not work correctly with the latest version of Django and reactions on pull requests are very slow.
+However I recommend use the original application if you can.
+
 Motivation
 **********
 
