@@ -252,7 +252,7 @@ def multiform_factory(model, multiform=MultiForm, app_data_field='app_data', nam
     name = name or '%sWithAppDataForm' % model_form._meta.model.__name__
     return type(
         name, (multiform, ),
-        {'ModelForm': model_form, 'app_data_field': app_data_field, '_app_form_opts': form_opts}
+        {'ModelForm': model_form, '_meta': model_form._meta, 'app_data_field': app_data_field, '_app_form_opts': form_opts}
     )
 
 def multiformset_factory(model, multiform=MultiForm, app_data_field='app_data', name=None, form_opts={},
